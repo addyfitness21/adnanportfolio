@@ -397,7 +397,7 @@ export default function Home() {
         <div style={{ marginTop: "-25px" }} className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* LEFT CONTENT COLUMN (Heading & Details) */}
-          <div className="lg:col-span-6 flex flex-col items-start justify-center text-left z-10 space-y-6 sm:space-y-8 order-2 lg:order-1 animate-fade-in">
+          <div className="lg:col-span-6 flex flex-col items-center lg:items-start justify-center text-center lg:text-left z-10 space-y-6 sm:space-y-8 order-2 lg:order-1 animate-fade-in">
             
             {/* Tagline Badge */}
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-zinc-900 via-zinc-900/80 to-zinc-950 border border-zinc-800 rounded-full pl-3.5 pr-4 py-1.5 text-xs font-semibold tracking-wider text-rose-400 uppercase shadow-md select-none">
@@ -430,12 +430,12 @@ export default function Home() {
             </div>
 
             {/* Descriptive Subtext */}
-            <p className="text-zinc-400 text-base sm:text-lg md:text-xl max-w-xl font-light leading-relaxed">
+            <p className="text-zinc-400 text-base sm:text-lg md:text-xl max-w-xl font-light leading-relaxed mx-auto lg:mx-0">
               I turn ideas into structured growth. I don't just build brands — I build the <span className="text-emerald-400 font-semibold border-b border-emerald-500/30 pb-0.5">systems</span> behind them.
             </p>
 
             {/* CTA Interaction triggers & Expand Drawer button */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <a 
                 href="/contact"
                 className="px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 to-rose-600 text-white font-bold text-sm tracking-wide hover:shadow-[0_8px_24px_rgba(244,63,94,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
@@ -470,7 +470,7 @@ export default function Home() {
             />
 
             {/* Avatar wrapper offset 60px right and 15px upwards */}
-            <div style={{ transform: "translate(60px, -15px)" }} className="relative w-full flex justify-center">
+            <div style={{ transform: "translate(0px, -15px)" }} className="relative w-full flex justify-center lg:[transform:translate(60px,-15px)]">
               <div className="relative max-w-[320px] sm:max-w-[450px] lg:max-w-[550px] xl:max-w-[620px] w-full flex flex-col items-center">
                 <img 
                   src={currentHomeData.heroImage || "/avatar.png"} 
