@@ -25,7 +25,7 @@ export default function BusinessPage() {
       .catch(err => console.error("Error fetching business data from Neon:", err));
   }, []);
 
-  const data = businessConfig || [];
+  const data = businessConfig && businessConfig.ventures ? businessConfig.ventures : [];
 
   // Close website dropdown when clicking outside
   useEffect(() => {
