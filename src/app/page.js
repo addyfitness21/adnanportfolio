@@ -412,16 +412,20 @@ export default function Home() {
             <div className="space-y-3 sm:space-y-4">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] sm:leading-[1.05]">
                 {currentHomeData.headingTitle} <br />
-                {currentHomeData.animatedWords && currentHomeData.animatedWords.map((word, i) => {
-                  const isLast = i === currentHomeData.animatedWords.length - 1;
+                {(() => {
+                  const words = currentHomeData.animatedWords || [];
+                  const w1 = words[0] || "live,";
+                  const w2 = (words[1] || "eat").replace(/,$/, "");
+                  const w3 = words[2] || "grow.";
                   return (
-                    <React.Fragment key={i}>
-                      <span className={`animate-liquid-text ${!isLast ? "italic font-serif" : ""}`}>
-                        {word}
-                      </span>{" "}
-                    </React.Fragment>
+                    <>
+                      <span className="animate-liquid-text italic font-serif">{w1}</span>{" "}
+                      <span className="animate-liquid-text italic font-serif">{w2}</span>{" "}
+                      <span className="text-white font-extrabold">&</span>{" "}
+                      <span className="animate-liquid-text">{w3}</span>
+                    </>
                   );
-                })}
+                })()}
               </h1>
             </div>
 
