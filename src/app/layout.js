@@ -1,4 +1,4 @@
-import { Plus_Jakarta_Sans, Great_Vibes, Playfair_Display } from "next/font/google";
+import { Plus_Jakarta_Sans, Great_Vibes, Playfair_Display, Caveat } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -20,16 +20,22 @@ const playfairDisplay = Playfair_Display({
   style: ["normal", "italic"],
 });
 
+const caveat = Caveat({
+  variable: "--font-handwriting",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
+
 export const metadata = {
   title: "Adnan Ali — Founder & Builder",
-  description: "I turn ideas into structured growth. I don't just build brands — I build the systems behind them.",
+  description: "I don't just build brands. I build the systems behind them.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${plusJakartaSans.variable} ${greatVibes.variable} ${playfairDisplay.variable} scroll-smooth`}
+      className={`${plusJakartaSans.variable} ${greatVibes.variable} ${playfairDisplay.variable} ${caveat.variable} scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
@@ -40,7 +46,7 @@ export default function RootLayout({ children }) {
           precedence="default"
         />
       </head>
-      <body className="bg-black text-zinc-100 font-sans selection:bg-rose-500 selection:text-white h-screen overflow-hidden relative" suppressHydrationWarning>
+      <body className="bg-black text-zinc-100 font-sans selection:bg-rose-500 selection:text-white min-h-screen overflow-x-hidden relative" suppressHydrationWarning>
         {children}
       </body>
     </html>

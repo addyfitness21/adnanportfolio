@@ -4,6 +4,7 @@
   --font-sans: var(--font-sans), sans-serif;
   --font-signature: var(--font-signature), cursive;
   --font-serif: var(--font-serif), serif;
+  --font-handwriting: var(--font-handwriting), cursive;
 
   --color-accentRed: #f43f5e;
   --color-accentTeal: #10b981;
@@ -53,7 +54,7 @@
     width: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #09090b;
+    background: #000000;
 }
 ::-webkit-scrollbar-thumb {
     background: #27272a;
@@ -80,25 +81,72 @@
   animation: waterFlow 12s ease infinite;
 }
 
-/* Liquid flowing color-changing text animation */
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Simple Hollow font text (Clean sharp outline, strictly no effects, glow or shadows) */
+.hollow-text,
+.animate-liquid-text {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  -webkit-text-stroke: 1.5px #ffffff !important;
+  display: inline-block;
+  text-shadow: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  animation: none !important;
 }
 
-.animate-liquid-text {
-  background-image: linear-gradient(90deg, #ff3b30, #ec4899, #be185d, #06b6d4, #2dd4bf, #8ea89d, #ff3b30);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  position: relative;
-  padding-bottom: 0.18em;
-  margin-bottom: -0.18em;
-  animation: gradientFlow 5s linear infinite;
-  will-change: background-position;
+/* Single-line Marquee Carousel Animation */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Letter 3D Roller Animation */
+@keyframes letterRoller {
+  0% {
+    transform: translateY(120%) rotateX(-90deg);
+    opacity: 0;
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  75% {
+    transform: translateY(-6%) rotateX(8deg);
+  }
+  100% {
+    transform: translateY(0%) rotateX(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.letter-roller-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform-origin: 50% 100% -15px;
+}
+
+/* Typing Effect Cursor */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor {
+  animation: cursorBlink 0.85s step-start infinite;
+}
+
+
+
 

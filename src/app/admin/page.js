@@ -433,7 +433,7 @@ export default function AdminPage() {
   if (!isClient) return null;
 
   return (
-    <div className="fixed inset-0 overflow-y-auto bg-zinc-950 text-zinc-100 selection:bg-rose-500 selection:text-white pb-12 pt-20 px-4 sm:px-8">
+    <div className="fixed inset-0 overflow-y-auto bg-black text-zinc-100 selection:bg-rose-500 selection:text-white pb-12 pt-20 px-4 sm:px-8">
       {/* Background ambient light */}
       <div className="absolute top-10 left-10 w-96 h-96 bg-rose-500/10 rounded-full blur-[150px] pointer-events-none"></div>
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[150px] pointer-events-none"></div>

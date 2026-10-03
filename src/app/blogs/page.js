@@ -138,7 +138,7 @@ export default function BlogsPage() {
     : data.filter(post => post.category === activeCategory);
 
   return (
-    <div className="fixed inset-0 overflow-y-auto bg-zinc-950 text-zinc-100 pt-28 pb-0 px-4 sm:px-8 selection:bg-rose-500 selection:text-white">
+    <div className="fixed inset-0 overflow-y-auto bg-black text-zinc-100 pt-28 pb-0 px-4 sm:px-8 selection:bg-rose-500 selection:text-white">
       {/* Background lights to complement layout */}
       <div className="absolute top-1/4 left-10 w-72 h-72 sm:w-96 sm:h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse-glow"></div>
       <div className="absolute bottom-1/4 right-10 w-80 h-80 sm:w-[500px] sm:h-[500px] bg-rose-500/10 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" style={{ animationDelay: "2s" }}></div>
@@ -193,23 +193,23 @@ export default function BlogsPage() {
             </a>
           </div>
 
-          {/* RIGHT: Social Media & Connection Icons */}
-          <div className="flex-1 flex items-center justify-end gap-3.5">
+          {/* RIGHT: Social Media & Connection Icons (Desktop Only) */}
+          <div className="flex-1 hidden lg:flex items-center justify-end gap-3.5">
             <div className="flex items-center space-x-[18px] sm:space-x-[22px] text-zinc-400">
               <a href="/contact" className="hover:text-white transition-all duration-300" title="Contact">
-                <i className="fas fa-id-card text-[15px]"></i>
+                <i className="fa-solid fa-address-card text-[15px]"></i>
               </a>
               <a href="https://www.facebook.com/adnan.addu.37" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all duration-300" title="Facebook">
-                <i className="fab fa-facebook-f text-[15px]"></i>
+                <i className="fa-brands fa-facebook-f text-[15px]"></i>
               </a>
               <a href="https://www.instagram.com/_scooby_dooby_/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all duration-300" title="Instagram">
-                <i className="fab fa-instagram text-[16px]"></i>
+                <i className="fa-brands fa-instagram text-[16px]"></i>
               </a>
               <a href="https://www.linkedin.com/in/adnan-ali-b4b766214" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-all duration-300" title="LinkedIn">
-                <i className="fab fa-linkedin-in text-[15px]"></i>
+                <i className="fa-brands fa-linkedin-in text-[15px]"></i>
               </a>
               <a href="mailto:Sayedadnanali905@gmail.com" className="hover:text-white transition-all duration-300" title="Send Email">
-                <i className="far fa-envelope text-[15px]"></i>
+                <i className="fa-regular fa-envelope text-[15px]"></i>
               </a>
               
               {/* Dropdown for Websites */}
@@ -221,13 +221,13 @@ export default function BlogsPage() {
                   className="hover:text-white transition-all duration-300 flex items-center focus:outline-none cursor-pointer" 
                   title="Websites"
                 >
-                  <i className="fas fa-globe text-[15px]"></i>
+                  <i className="fa-solid fa-globe text-[15px]"></i>
                 </button>
                 
                 <div 
                   onMouseEnter={() => setWebsiteDropdownOpen(true)}
                   onMouseLeave={() => setWebsiteDropdownOpen(false)}
-                  className={`absolute right-0 top-full mt-2.5 w-56 rounded-2xl bg-zinc-950/95 border border-zinc-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 origin-top-right ${
+                  className={`absolute right-0 top-full mt-2.5 w-60 rounded-2xl bg-zinc-950/95 border border-zinc-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 origin-top-right ${
                     websiteDropdownOpen ? 'opacity-100 scale-100 translate-y-0 visible' : 'opacity-0 scale-95 -translate-y-2 invisible'
                   } p-2 z-50`}
                 >
@@ -235,10 +235,10 @@ export default function BlogsPage() {
                     href="https://www.addyfitness.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 text-xs">
-                      <i className="fas fa-dumbbell"></i>
+                    <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 text-xs">
+                      <i className="fa-solid fa-dumbbell"></i>
                     </div>
                     <div className="flex flex-col text-left">
                       <span className="text-xs font-semibold text-white">Addy Fitness</span>
@@ -249,10 +249,10 @@ export default function BlogsPage() {
                     href="https://www.addymeals.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs">
-                      <i className="fas fa-utensils"></i>
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs">
+                      <i className="fa-solid fa-utensils"></i>
                     </div>
                     <div className="flex flex-col text-left">
                       <span className="text-xs font-semibold text-white">Addy Meals</span>
@@ -263,10 +263,10 @@ export default function BlogsPage() {
                     href="https://www.pixelwebpages.com" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 transition-all duration-200"
                   >
-                    <div className="w-7 h-7 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 text-xs">
-                      <i className="fas fa-laptop-code"></i>
+                    <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs">
+                      <i className="fa-solid fa-laptop-code"></i>
                     </div>
                     <div className="flex flex-col text-left">
                       <span className="text-xs font-semibold text-white">Pixel Webpages</span>
@@ -276,40 +276,96 @@ export default function BlogsPage() {
                 </div>
               </div>
             </div>
-
-            {/* Mobile Hamburger Menu Button */}
-            <button 
-              onClick={toggleMobileMenu}
-              className="lg:hidden w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white focus:outline-none transition-all duration-300" 
-              aria-label="Toggle Navigation"
-            >
-              <i className={`${mobileMenuOpen ? "fas fa-times" : "fas fa-bars"} text-xs`}></i>
-            </button>
           </div>
+
+          {/* Mobile Hamburger Menu Button */}
+          <button 
+            onClick={toggleMobileMenu}
+            className="lg:hidden w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white focus:outline-none transition-all duration-300 cursor-pointer" 
+            aria-label="Toggle Navigation"
+          >
+            <i className={`${mobileMenuOpen ? "fa-solid fa-xmark" : "fa-solid fa-bars"} text-xs`}></i>
+          </button>
         </nav>
 
         {/* Mobile Dropdown */}
-        <div className={`${mobileMenuOpen ? "flex" : "hidden"} lg:hidden mt-3 mx-4 p-4 rounded-3xl bg-zinc-950/95 border border-zinc-800/90 shadow-2xl backdrop-blur-2xl transition-all duration-300 flex flex-col gap-2`}>
-          <a href="/" className="px-4 py-3 rounded-xl flex items-center justify-between text-zinc-400">
-            <span>Home</span>
-            <i className="fas fa-chevron-right text-xs text-zinc-550"></i>
-          </a>
-          <a href="/personal" className="px-4 py-3 rounded-xl flex items-center justify-between text-zinc-400">
-            <span>Personal</span>
-            <i className="fas fa-chevron-right text-xs text-zinc-550"></i>
-          </a>
-          <a href="/business" className="px-4 py-3 rounded-xl flex items-center justify-between text-zinc-400">
-            <span>Business</span>
-            <i className="fas fa-chevron-right text-xs text-zinc-550"></i>
-          </a>
-          <a href="/about" className="px-4 py-3 rounded-xl flex items-center justify-between text-zinc-400">
-            <span>About Me</span>
-            <i className="fas fa-chevron-right text-xs text-zinc-550"></i>
-          </a>
-          <a href="/blogs" className="px-4 py-3 rounded-xl flex items-center justify-between text-white bg-zinc-900/50">
-            <span>Blogs</span>
-            <i className="fas fa-chevron-right text-xs text-zinc-550"></i>
-          </a>
+        <div className={`${mobileMenuOpen ? "flex" : "hidden"} lg:hidden mt-2 p-3 rounded-2xl bg-zinc-950/95 border border-white/[0.18] shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.2)] backdrop-blur-2xl flex-col gap-2`}>
+          <div className="grid grid-cols-2 gap-1.5 pb-2 border-b border-white/[0.08]">
+            <a href="/" className="px-3 py-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs flex items-center justify-between">
+              <span>Home</span>
+              <i className="fa-solid fa-chevron-right text-[9px] text-zinc-600"></i>
+            </a>
+            <a href="/personal" className="px-3 py-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs flex items-center justify-between">
+              <span>Personal</span>
+              <i className="fa-solid fa-chevron-right text-[9px] text-zinc-600"></i>
+            </a>
+            <a href="/business" className="px-3 py-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs flex items-center justify-between">
+              <span>Business</span>
+              <i className="fa-solid fa-chevron-right text-[9px] text-zinc-600"></i>
+            </a>
+            <a href="/about" className="px-3 py-2 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs flex items-center justify-between">
+              <span>About Me</span>
+              <i className="fa-solid fa-chevron-right text-[9px] text-zinc-600"></i>
+            </a>
+            <a href="/blogs" className="px-3 py-2 rounded-xl text-white bg-white/[0.12] font-semibold text-xs flex items-center justify-between">
+              <span>Blogs</span>
+              <i className="fa-solid fa-chevron-right text-[9px] text-white/50"></i>
+            </a>
+            <a href="/contact" className="px-3 py-2 rounded-xl text-rose-300 hover:text-white hover:bg-rose-500/20 bg-rose-500/10 border border-rose-500/20 text-xs font-semibold flex items-center justify-between">
+              <span>Contact</span>
+              <i className="fa-solid fa-address-card text-[10px] text-rose-400"></i>
+            </a>
+          </div>
+
+          {/* Mobile Ecosystem & Ventures */}
+          <div className="pt-1 pb-1 space-y-1">
+            <span className="text-[9px] uppercase font-mono tracking-widest text-zinc-500 px-2 font-bold">Ventures &amp; Ecosystem</span>
+            <div className="grid grid-cols-1 gap-1">
+              <a href="https://www.addyfitness.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs">
+                <div className="w-5 h-5 rounded-md bg-rose-500/15 border border-rose-500/25 flex items-center justify-center text-rose-400 text-[9px]">
+                  <i className="fa-solid fa-dumbbell"></i>
+                </div>
+                <div className="flex items-center justify-between flex-1">
+                  <span className="font-semibold text-white text-[11px]">Addy Fitness</span>
+                  <span className="text-[9px] text-zinc-500 font-mono">addyfitness.com</span>
+                </div>
+              </a>
+              <a href="https://www.addymeals.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs">
+                <div className="w-5 h-5 rounded-md bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-400 text-[9px]">
+                  <i className="fa-solid fa-bowl-food"></i>
+                </div>
+                <div className="flex items-center justify-between flex-1">
+                  <span className="font-semibold text-white text-[11px]">Addy Meals</span>
+                  <span className="text-[9px] text-zinc-500 font-mono">addymeals.com</span>
+                </div>
+              </a>
+              <a href="https://www.pixelwebpages.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-zinc-300 hover:text-white hover:bg-white/[0.06] text-xs">
+                <div className="w-5 h-5 rounded-md bg-cyan-500/15 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-[9px]">
+                  <i className="fa-solid fa-code"></i>
+                </div>
+                <div className="flex items-center justify-between flex-1">
+                  <span className="font-semibold text-white text-[11px]">Pixel Webpages</span>
+                  <span className="text-[9px] text-zinc-500 font-mono">pixelwebpages.com</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Mobile Social Bar at Bottom of Menu */}
+          <div className="pt-2 border-t border-white/[0.08] flex items-center justify-around px-2 py-1">
+            <a href="https://www.facebook.com/adnan.addu.37" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] flex items-center justify-center text-zinc-300 hover:text-blue-400 transition-all text-xs" title="Facebook">
+              <i className="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/_scooby_dooby_/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] flex items-center justify-center text-zinc-300 hover:text-rose-400 transition-all text-xs" title="Instagram">
+              <i className="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/adnan-ali-b4b766214" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] flex items-center justify-center text-zinc-300 hover:text-sky-400 transition-all text-xs" title="LinkedIn">
+              <i className="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="mailto:Sayedadnanali905@gmail.com" className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] flex items-center justify-center text-zinc-300 hover:text-rose-400 transition-all text-xs" title="Email">
+              <i className="fa-regular fa-envelope"></i>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -322,13 +378,14 @@ export default function BlogsPage() {
             {/* Back Button */}
             <button 
               onClick={() => setSelectedPost(null)}
-              className="flex items-center gap-2.5 text-xs font-semibold text-zinc-400 hover:text-white transition-colors mb-8 cursor-pointer group"
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.12] hover:border-white/30 text-xs font-semibold text-zinc-400 hover:text-white transition-all duration-300 mb-8 cursor-pointer group shadow-sm"
             >
-              <i className="fas fa-arrow-left transition-transform group-hover:-translate-x-1"></i> Back to Blogs
+              <i className="fa-solid fa-arrow-left text-[11px] transition-transform duration-300 group-hover:-translate-x-1"></i> 
+              <span>Back to All Blogs</span>
             </button>
 
             {/* Big Hero Image Container */}
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl mb-8">
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-[2.25rem] overflow-hidden border border-white/[0.15] shadow-[0_20px_60px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] mb-8">
               <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-full object-cover" />
               <div className="absolute top-0 left-0 bg-[#d2a379] text-zinc-950 font-bold px-5 py-3 rounded-br-2xl text-[10px] sm:text-xs leading-tight uppercase font-mono max-w-[85%] text-left shadow-lg">
                 {selectedPost.overlayTitle}
@@ -336,44 +393,52 @@ export default function BlogsPage() {
             </div>
 
             {/* Heading */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4 text-left">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight mb-4 text-left tracking-tight">
               {selectedPost.title}
             </h1>
 
             {/* Article Meta Info */}
-            <div className="flex items-center gap-3 text-xs text-zinc-500 mb-8 border-b border-white/5 pb-4">
-              <span className="bg-white/5 border border-white/10 text-zinc-300 px-3.5 py-1 rounded-full text-[9px] uppercase font-mono font-bold">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-400 mb-8 border-b border-white/[0.08] pb-4">
+              <span className="bg-rose-500/10 border border-rose-500/20 text-rose-400 px-3 py-1 rounded-full text-[10px] uppercase font-mono font-bold flex items-center gap-1.5">
+                <i className="fa-solid fa-tag text-[9px]"></i>
                 {selectedPost.category}
               </span>
-              <span>•</span>
-              <span>{selectedPost.date}</span>
-              <span>•</span>
-              <span>{selectedPost.readTime}</span>
+              <span className="text-zinc-600">•</span>
+              <span className="flex items-center gap-1.5 text-zinc-400">
+                <i className="fa-regular fa-calendar-days text-[11px]"></i>
+                {selectedPost.date}
+              </span>
+              <span className="text-zinc-600">•</span>
+              <span className="flex items-center gap-1.5 text-zinc-400">
+                <i className="fa-regular fa-clock text-[11px]"></i>
+                {selectedPost.readTime}
+              </span>
             </div>
 
             {/* Body Section */}
-            <div className="space-y-6 text-zinc-350 text-sm sm:text-base leading-relaxed text-left font-light">
-              <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-wider font-mono border-l-2 border-rose-500 pl-3.5">
-                The Situation & Background
-              </h2>
+            <div className="space-y-6 text-zinc-300 text-sm sm:text-base leading-relaxed text-left font-light">
+              <div className="flex items-center gap-2 text-base sm:text-lg font-black text-white uppercase tracking-wider font-mono border-l-2 border-rose-500 pl-3.5">
+                <i className="fa-solid fa-compass-drafting text-rose-400 text-sm"></i>
+                <span>The Situation & Background</span>
+              </div>
               {selectedPost.body.trim().split('\n\n').map((p, i) => (
                 <p key={i}>{p.trim()}</p>
               ))}
             </div>
 
             {/* Solutions Section */}
-            <div className="mt-12 p-6 sm:p-8 rounded-[2rem] bg-emerald-500/5 border border-emerald-500/20 shadow-xl space-y-6 text-left relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="mt-12 p-6 sm:p-8 rounded-[2.25rem] bg-gradient-to-b from-emerald-500/[0.08] via-zinc-950/90 to-black border border-emerald-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.15)] space-y-6 text-left relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
               
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                  <i className="fas fa-check-circle text-base"></i>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
+                  <i className="fa-solid fa-circle-check text-lg"></i>
                 </div>
                 <div>
-                  <h2 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">
+                  <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-wider">
                     Holistic Action Plan & Solution
                   </h2>
-                  <p className="text-[10px] text-zinc-500 font-medium">Strategic guidance & remedies</p>
+                  <p className="text-[11px] text-zinc-400 font-medium">Strategic guidance & remedies</p>
                 </div>
               </div>
 
@@ -383,8 +448,9 @@ export default function BlogsPage() {
                   if (cleaned.startsWith("1.") || cleaned.startsWith("2.") || cleaned.startsWith("3.") || cleaned.startsWith("4.")) {
                     const parts = cleaned.split(":");
                     return (
-                      <div key={i} className="pl-4 border-l-2 border-emerald-500/35 py-0.5">
-                        <strong className="text-white block mb-0.5 text-xs sm:text-sm font-semibold tracking-wide">
+                      <div key={i} className="pl-4 border-l-2 border-emerald-500/40 py-1">
+                        <strong className="text-white block mb-0.5 text-xs sm:text-sm font-semibold tracking-wide flex items-center gap-1.5">
+                          <i className="fa-solid fa-check text-emerald-400 text-[10px]"></i>
                           {parts[0]}
                         </strong>
                         <span className="text-zinc-350">{parts[1]}</span>
@@ -400,9 +466,10 @@ export default function BlogsPage() {
             <div className="pt-10 flex justify-start">
               <button 
                 onClick={() => setSelectedPost(null)}
-                className="px-6 py-2.5 rounded-full bg-white/[0.05] border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white transition-all font-semibold text-xs cursor-pointer"
+                className="group relative inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 via-rose-500 to-rose-600 text-white font-bold text-xs shadow-[0_8px_30px_rgba(244,63,94,0.4),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_40px_rgba(244,63,94,0.6)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden"
               >
-                ← Back to Blogs List
+                <i className="fa-solid fa-arrow-left text-[11px] transition-transform group-hover:-translate-x-1"></i>
+                <span>Back to All Blogs</span>
               </button>
             </div>
           </div>
@@ -411,8 +478,9 @@ export default function BlogsPage() {
           <div className="space-y-12">
             {/* Main Header title */}
             <div className="text-center space-y-4 max-w-3xl mx-auto pt-6 mb-10 animate-fade-in">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-[10px] font-bold text-rose-400 tracking-widest uppercase font-mono animate-float-icon">
-                Insights & Systems
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-rose-500/10 via-purple-500/10 to-rose-500/10 border border-rose-500/25 text-[10px] font-bold text-rose-400 tracking-widest uppercase font-mono animate-float-icon shadow-sm">
+                <i className="fa-solid fa-book-open text-[10px]"></i>
+                Insights &amp; Systems
               </span>
               <h1 className="text-5xl sm:text-7xl font-black text-white tracking-tight uppercase leading-none">
                 Blogs
@@ -423,15 +491,15 @@ export default function BlogsPage() {
             </div>
 
             {/* Category Filter Tabs */}
-            <div className="flex justify-center gap-2 mb-10 max-w-xl mx-auto">
+            <div className="flex justify-center gap-2 mb-10 max-w-xl mx-auto flex-wrap">
               {["All", "Wellness", "Lifestyle", "Tech"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 border ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 border cursor-pointer ${
                     activeCategory === cat 
-                      ? "bg-white/10 border-white/20 text-white shadow-lg" 
-                      : "bg-transparent border-transparent text-zinc-500 hover:text-zinc-300"
+                      ? "bg-gradient-to-b from-white/[0.18] to-white/[0.08] border-white/30 text-white shadow-[0_8px_20px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.3)] scale-105" 
+                      : "bg-white/[0.02] border-white/[0.08] text-zinc-400 hover:text-white hover:border-white/20"
                   }`}
                 >
                   {cat}
@@ -445,26 +513,29 @@ export default function BlogsPage() {
                 <div 
                   key={post.id} 
                   onClick={() => setSelectedPost(post)}
-                  className="p-5 rounded-[2rem] bg-white/[0.02] border border-white/10 hover:border-white/20 hover:scale-[1.01] hover:shadow-2xl shadow-xl space-y-4 text-white backdrop-blur-md transition-all duration-300 flex flex-col justify-between cursor-pointer group"
+                  className="p-5 rounded-[2.25rem] bg-gradient-to-b from-white/[0.07] via-zinc-950/90 to-black border border-white/[0.12] hover:border-white/30 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer group relative overflow-hidden"
                 >
-                  <div className="space-y-4">
+                  {/* Subtle hover backlight glow */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 group-hover:bg-rose-500/15 rounded-full blur-3xl transition-all duration-500 pointer-events-none" />
+
+                  <div className="space-y-4 relative z-10">
                     {/* Rounded Image Container */}
-                    <div className="relative overflow-hidden w-full aspect-[4/3] rounded-[1.5rem] bg-zinc-900/50 shadow-inner">
-                      <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <div className="absolute top-0 left-0 bg-[#d2a379] text-zinc-950 font-bold px-4 py-2.5 rounded-br-2xl text-[9px] sm:text-[10px] leading-tight uppercase font-mono max-w-[85%] text-left">
+                    <div className="relative overflow-hidden w-full aspect-[4/3] rounded-[1.5rem] bg-zinc-900/50 shadow-inner border border-white/[0.08]">
+                      <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      <div className="absolute top-0 left-0 bg-[#d2a379] text-zinc-950 font-bold px-4 py-2.5 rounded-br-2xl text-[9px] sm:text-[10px] leading-tight uppercase font-mono max-w-[85%] text-left shadow-lg">
                         {post.overlayTitle}
                       </div>
                     </div>
 
                     {/* Category tags pill buttons */}
-                    <div className="flex flex-wrap gap-2 pt-1.5">
+                    <div className="flex flex-wrap gap-2 pt-1">
                       {post.tags.map((tag, i) => (
                         <span 
                           key={i} 
                           className={`px-3 py-1 rounded-full text-[9px] font-bold border leading-none ${
                             i === 0 
-                              ? "bg-white/5 border-white/10 text-zinc-300" 
-                              : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                              ? "bg-white/[0.06] border-white/[0.14] text-zinc-300" 
+                              : "bg-rose-500/10 border-rose-500/25 text-rose-400"
                           }`}
                         >
                           {tag}
@@ -474,20 +545,24 @@ export default function BlogsPage() {
 
                     {/* Heading & description */}
                     <div className="space-y-2">
-                      <h3 className="text-sm sm:text-base font-bold text-zinc-150 group-hover:text-white leading-snug tracking-tight text-left transition-colors">
+                      <h3 className="text-sm sm:text-base font-bold text-zinc-100 group-hover:text-white leading-snug tracking-tight text-left transition-colors">
                         {post.title}
                       </h3>
-                      <p className="text-[11px] text-zinc-400 font-light leading-relaxed text-left">
+                      <p className="text-[11px] text-zinc-400 font-light leading-relaxed text-left line-clamp-3">
                         {post.excerpt}
                       </p>
                     </div>
                   </div>
 
-                  {/* Footer (Date) */}
-                  <div className="border-t border-white/5 pt-3 flex items-center justify-between text-[10px] text-zinc-500 font-mono">
-                    <span>{post.date}</span>
-                    <span className="text-zinc-400 font-bold uppercase tracking-wider flex items-center gap-1 group-hover:text-white transition-colors">
-                      Read Post <i className="fas fa-chevron-right text-[8px] transition-transform group-hover:translate-x-0.5"></i>
+                  {/* Footer (Date & Read link) */}
+                  <div className="border-t border-white/[0.08] pt-3.5 mt-4 flex items-center justify-between text-[10px] text-zinc-400 font-mono relative z-10">
+                    <span className="flex items-center gap-1.5">
+                      <i className="fa-regular fa-calendar-days text-[10px] text-zinc-500"></i>
+                      {post.date}
+                    </span>
+                    <span className="text-zinc-300 font-bold uppercase tracking-wider flex items-center gap-1.5 group-hover:text-rose-400 transition-colors">
+                      Read Article 
+                      <i className="fa-solid fa-arrow-right text-[9px] transition-transform duration-300 group-hover:translate-x-1"></i>
                     </span>
                   </div>
                 </div>
@@ -498,62 +573,73 @@ export default function BlogsPage() {
 
       </div>
 
-      {/* HIGH FIDELITY FULL-WIDTH FOOTER */}
-      <footer className="bg-[#1c1e22] border-t border-white/10 rounded-t-[2.5rem] sm:rounded-t-[3.5rem] py-6 sm:py-7 px-6 sm:px-12 mt-12 -mx-4 sm:-mx-8 shadow-[0_-15px_30px_rgba(0,0,0,0.5)] relative z-10">
-        <div className="max-w-4xl mx-auto text-center space-y-3">
+      {/* HIGH FIDELITY LIQUID GLASS FOOTER */}
+      <footer className="w-full relative z-20 mt-12 overflow-hidden rounded-t-[2.75rem] sm:rounded-t-[3.75rem] backdrop-blur-3xl backdrop-saturate-200 bg-gradient-to-b from-white/[0.12] via-zinc-950/80 to-black/95 border-t border-white/[0.24] border-x border-white/[0.06] shadow-[inset_0_1.5px_2px_0_rgba(255,255,255,0.35),0_-20px_60px_rgba(0,0,0,0.9)] pt-5 sm:pt-6 pb-5 sm:pb-6 px-6 sm:px-12 -mx-4 sm:-mx-8">
+        
+        {/* Internal Liquid Ambient Light Refractions */}
+        <div className="absolute top-0 left-1/4 w-96 h-40 bg-cyan-500/10 rounded-full blur-[90px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-40 bg-rose-500/10 rounded-full blur-[90px] pointer-events-none" />
+        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+        
+        {/* Subtle Top Liquid Highlight Specular Line */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-5 relative z-10">
           
-          {/* Signature Image */}
+          {/* Large Signature Image */}
           <div className="flex justify-center select-none pointer-events-none">
             <img 
               src="/signature-new.png" 
               alt="Sayed Adnan Ali Signature Logo" 
-              className="h-auto max-w-[220px] sm:max-w-[260px] drop-shadow-[0_4px_12px_rgba(255,255,255,0.15)] hover:scale-105 transition-transform duration-300"
+              className="h-auto max-w-[320px] sm:max-w-[420px] md:max-w-[480px] w-full object-contain drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] hover:scale-105 transition-transform duration-300"
             />
           </div>
 
           {/* Tagline / Subtitle */}
-          <p className="text-zinc-400 text-xs sm:text-sm tracking-wider uppercase font-bold font-mono">
-            Building the future
+          <p className="text-zinc-400 text-xs sm:text-sm tracking-[0.28em] uppercase font-bold font-mono drop-shadow-sm">
+            BUILDING THE FUTURE
           </p>
 
-          {/* Sector Identifiers */}
-          <div className="text-zinc-500 text-[10px] sm:text-xs tracking-[0.2em] font-black uppercase flex items-center justify-center gap-2 sm:gap-4 flex-wrap pt-1">
-            <span>FOOD & BEVERAGE</span>
-            <span className="text-white/20">•</span>
-            <span>TECHNOLOGY</span>
-            <span className="text-white/20">•</span>
-            <span>HEALTHCARE</span>
+          {/* Sector Identifiers in Liquid Glass Capsule */}
+          <div className="flex justify-center pt-0.5">
+            <div className="inline-flex items-center justify-center gap-2 sm:gap-4 px-5 py-1.5 rounded-full bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] shadow-[inset_0_1px_1px_rgba(255,255,255,0.18)] text-zinc-400 text-[10px] sm:text-xs tracking-[0.2em] font-black uppercase flex-wrap">
+              <span>FOOD &amp; BEVERAGE</span>
+              <span className="text-white/30">•</span>
+              <span>TECHNOLOGY</span>
+              <span className="text-white/30">•</span>
+              <span>HEALTHCARE</span>
+            </div>
           </div>
 
           {/* Requested Cursive/Italic Quote */}
-          <p className="text-zinc-300 text-xs sm:text-sm italic font-light max-w-xl mx-auto leading-relaxed pt-1 border-t border-white/5">
-            "I may not have an MBA, but life gave me something far more valuable—the wisdom to lead, the courage to adapt, and the experience to overcome."
+          <p className="text-zinc-300/90 text-xs sm:text-sm italic font-light max-w-xl mx-auto leading-relaxed pt-1.5 border-t border-white/[0.08]">
+            &ldquo;I may not have an MBA, but life gave me something far more valuable—the wisdom to lead, the courage to adapt, and the experience to overcome.&rdquo;
           </p>
 
-          {/* Social icons */}
-          <div className="flex justify-center gap-3.5 pt-2">
+          {/* Liquid Glass Floating Social Bubbles */}
+          <div className="flex justify-center gap-3.5 pt-1">
             {[
-              { icon: "fab fa-facebook-f", url: "https://www.facebook.com/adnan.addu.37" },
-              { icon: "fab fa-instagram", url: "https://www.instagram.com/_scooby_dooby_/" },
-              { icon: "fas fa-envelope", url: "mailto:Sayedadnanali905@gmail.com" },
-              { icon: "fab fa-linkedin-in", url: "https://www.linkedin.com/in/adnan-ali-b4b766214" }
+              { icon: "fa-brands fa-facebook-f", url: "https://www.facebook.com/adnan.addu.37" },
+              { icon: "fa-brands fa-instagram", url: "https://www.instagram.com/_scooby_dooby_/" },
+              { icon: "fa-regular fa-envelope", url: "mailto:Sayedadnanali905@gmail.com" },
+              { icon: "fa-brands fa-linkedin-in", url: "https://www.linkedin.com/in/adnan-ali-b4b766214" }
             ].map((item, idx) => (
               <a 
                 key={idx} 
                 href={item.url} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="w-10 h-10 rounded-full bg-white/[0.05] border border-white/10 hover:border-white/25 flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 shadow-md hover:scale-110 active:scale-95"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-white/[0.14] via-white/[0.05] to-white/[0.02] border border-white/[0.22] hover:border-white/50 flex items-center justify-center text-zinc-300 hover:text-white transition-all duration-300 shadow-[inset_0_1px_1.5px_0_rgba(255,255,255,0.45),0_8px_20px_rgba(0,0,0,0.5)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),0_0_24px_rgba(255,255,255,0.3)] backdrop-blur-xl hover:-translate-y-1 hover:scale-110 active:scale-95"
               >
-                <i className={item.icon}></i>
+                <i className={`${item.icon} text-sm`}></i>
               </a>
             ))}
           </div>
 
-          {/* Bottom Copyright */}
-          <div className="flex justify-center pt-4">
-            <span className="text-[9px] sm:text-[10px] text-zinc-600 font-mono tracking-widest uppercase text-center">
-              © 2026 Sayed Adnan Ali. All rights reserved. • <a href="/admin" className="text-zinc-600 hover:text-rose-450 underline transition-colors">Admin</a>
+          {/* Bottom Copyright & Admin - Snug and Clean */}
+          <div className="flex justify-center pt-2 sm:pt-3">
+            <span className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase text-center">
+              © 2026 SAYED ADNAN ALI. ALL RIGHTS RESERVED. • <a href="/admin" className="text-zinc-500 hover:text-rose-450 underline transition-colors">ADMIN</a>
             </span>
           </div>
 
@@ -562,3 +648,4 @@ export default function BlogsPage() {
     </div>
   );
 }
+
