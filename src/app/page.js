@@ -148,7 +148,7 @@ const impactProjects = [
   }
 ];
 
-function TypingText({ text = "market impact.", delay = 150, speed = 75, className = "" }) {
+function TypingText({ text = "Execute to Lead.", delay = 150, speed = 75, className = "" }) {
   const [displayedText, setDisplayedText] = useState("");
   const [isDone, setIsDone] = useState(false);
 
@@ -502,12 +502,11 @@ export default function Home() {
                 FOUNDER <span className="text-zinc-600">•</span> BUILDER <span className="text-zinc-600">•</span> ENTREPRENEUR
               </div>
 
-              {/* Main Headline (3-Line Dedicated Format with Typing on 3rd Line) */}
+              {/* Main Headline (Observe to Learn / Execute to Lead with Typing on 2nd Line) */}
               <h1 className="text-[38px] xs:text-[44px] sm:text-5xl md:text-6xl lg:text-[4.4rem] xl:text-[5rem] font-extrabold text-white leading-[1.08] tracking-tight">
-                <span className="block">From</span>
-                <span className="block">market insight to</span>
+                <span className="block">Observe to Learn</span>
                 <span className="block italic font-serif text-white min-h-[1.12em] whitespace-nowrap">
-                  <TypingText text="market impact." delay={150} speed={75} />
+                  <TypingText text="Execute to Lead." delay={150} speed={75} />
                 </span>
               </h1>
 
