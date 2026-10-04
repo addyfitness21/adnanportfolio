@@ -1106,258 +1106,267 @@ export default function Home() {
                 <div className="absolute top-0 right-1/4 w-80 h-80 bg-white/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
                 {/* Venture Overview Top Row */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800/80 pb-5">
+                  <div className="space-y-1 text-left">
                     <div className="flex items-center gap-2.5 flex-wrap">
                       <span className="text-[10px] sm:text-xs font-mono font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-white/[0.08] text-zinc-300 border border-white/10 uppercase">
                         {project.tag}
                       </span>
-                      <span className="text-xs text-zinc-500 font-medium font-mono">
+                      <span className="text-[11px] sm:text-xs text-zinc-500 font-medium font-mono">
                         {project.role}
                       </span>
                     </div>
-                    <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1.5 flex items-center gap-3">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight flex items-center gap-3">
                       <span>{project.name}</span>
                     </h3>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <div className="px-4 py-2 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md text-right shadow-sm">
-                      <div className="text-[10px] font-mono uppercase text-zinc-500 tracking-wider">Highlight Metric</div>
-                      <div className={`text-sm sm:text-base font-extrabold bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <div className="px-4 py-2 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-md text-left sm:text-right shadow-sm">
+                      <div className="text-[9px] sm:text-[10px] font-mono uppercase text-zinc-500 tracking-wider">Highlight Metric</div>
+                      <div className={`text-xs sm:text-sm md:text-base font-extrabold bg-gradient-to-r ${project.color} bg-clip-text text-transparent`}>
                         {project.statSummary}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-3xl">
+                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-3xl text-left">
                   {project.description}
                 </p>
 
                 {/* SVG ROLLERCOASTER GROWTH & IMPACT GRAPH */}
-                <div className="relative rounded-2xl bg-black/60 border border-zinc-800/80 p-4 sm:p-6 overflow-hidden">
+                <div className="relative rounded-2xl bg-black/80 border border-zinc-800/80 p-3.5 sm:p-6 overflow-hidden space-y-3">
                   
                   {/* Graph Top Axis Bar */}
-                  <div className="flex items-center justify-between text-[10px] sm:text-xs font-mono text-zinc-500 pb-2 border-b border-zinc-900">
-                    <span className="flex items-center gap-1.5 text-zinc-400">
+                  <div className="flex items-center justify-between text-[10px] sm:text-xs font-mono text-zinc-500 pb-2 border-b border-zinc-900/80">
+                    <span className="flex items-center gap-1.5 text-zinc-300 font-semibold">
                       <i className="fa-solid fa-chart-area text-cyan-400" />
-                      NON-LINEAR EXECUTION &amp; IMPACT CURVE
+                      <span>NON-LINEAR EXECUTION &amp; IMPACT CURVE</span>
                     </span>
-                    <span className="text-zinc-600 hidden sm:inline">
-                      Hover nodes to inspect milestone events
+                    <span className="text-zinc-500 text-[10px] hidden sm:inline">
+                      Hover or tap nodes to inspect milestone events
+                    </span>
+                    <span className="text-zinc-400 text-[9px] flex items-center gap-1 sm:hidden">
+                      <i className="fa-solid fa-arrows-left-right text-cyan-400" />
+                      <span>Scroll timeline</span>
                     </span>
                   </div>
 
-                  {/* SVG Canvas */}
-                  <div className="relative w-full aspect-[16/7] sm:aspect-[16/5.5] min-h-[220px] mt-2">
-                    
-                    {/* SVG Graphic */}
-                    <svg viewBox="0 0 800 240" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id={project.gradientId} x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor={project.accentHex} stopOpacity="0.55" />
-                          <stop offset="65%" stopColor={project.accentHex} stopOpacity="0.12" />
-                          <stop offset="100%" stopColor={project.accentHex} stopOpacity="0.00" />
-                        </linearGradient>
+                  {/* Scrollable Container for Mobile to Prevent Squeezed Distortion */}
+                  <div className="w-full overflow-x-auto overflow-y-hidden pb-1 pt-1 touch-pan-x scrollbar-thin scrollbar-thumb-zinc-800">
+                    <div className="min-w-[560px] sm:min-w-full relative aspect-[16/6] sm:aspect-[16/5] min-h-[200px] sm:min-h-[220px]">
+                      
+                      {/* SVG Graphic */}
+                      <svg viewBox="0 0 800 240" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id={project.gradientId} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor={project.accentHex} stopOpacity="0.55" />
+                            <stop offset="65%" stopColor={project.accentHex} stopOpacity="0.12" />
+                            <stop offset="100%" stopColor={project.accentHex} stopOpacity="0.00" />
+                          </linearGradient>
 
-                        <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                          <feGaussianBlur stdDeviation="5" result="blur" />
-                          <feMerge>
-                            <feMergeNode in="blur" />
-                            <feMergeNode in="SourceGraphic" />
-                          </feMerge>
-                        </filter>
-                      </defs>
+                          <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="5" result="blur" />
+                            <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                        </defs>
 
-                      {/* Horizontal Grid Guide Lines */}
-                      <line x1="40" y1="35" x2="760" y2="35" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                      <line x1="40" y1="95" x2="760" y2="95" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                      <line x1="40" y1="155" x2="760" y2="155" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                      <line x1="40" y1="210" x2="760" y2="210" stroke="#3f3f46" strokeWidth="1.2" />
+                        {/* Horizontal Grid Guide Lines */}
+                        <line x1="40" y1="35" x2="760" y2="35" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                        <line x1="40" y1="95" x2="760" y2="95" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                        <line x1="40" y1="155" x2="760" y2="155" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                        <line x1="40" y1="210" x2="760" y2="210" stroke="#3f3f46" strokeWidth="1.2" />
 
-                      {/* Guide Text Labels */}
-                      <text x="45" y="30" fill="#a1a1aa" fontSize="9" fontWeight="bold" fontFamily="monospace">SCALE / LEADERSHIP (95%+)</text>
-                      <text x="45" y="90" fill="#71717a" fontSize="9" fontFamily="monospace">INFLECTION / SURGE (65%+)</text>
-                      <text x="45" y="150" fill="#52525b" fontSize="9" fontFamily="monospace">VALIDATION / PIVOT (35%+)</text>
+                        {/* Guide Text Labels */}
+                        <text x="45" y="30" fill="#a1a1aa" fontSize="9" fontWeight="bold" fontFamily="monospace">SCALE / LEADERSHIP (95%+)</text>
+                        <text x="45" y="90" fill="#71717a" fontSize="9" fontFamily="monospace">INFLECTION / SURGE (65%+)</text>
+                        <text x="45" y="150" fill="#52525b" fontSize="9" fontFamily="monospace">VALIDATION / PIVOT (35%+)</text>
 
-                      {/* Vertical Laser Drop Beams for each milestone point */}
-                      {project.points.map((pt, pIdx) => {
-                        const isHovered = activeNodeIndex === pIdx;
-                        return (
-                          <line
-                            key={`beam-${pIdx}`}
-                            x1={pt.x}
-                            y1={pt.y}
-                            x2={pt.x}
-                            y2="210"
-                            stroke={isHovered ? project.accentHex : "#3f3f46"}
-                            strokeDasharray={isHovered ? "2 2" : "3 3"}
-                            strokeWidth={isHovered ? "1.5" : "1"}
-                            opacity={isHovered ? "0.9" : "0.4"}
-                            className="transition-all duration-200"
-                          />
-                        );
-                      })}
+                        {/* Vertical Laser Drop Beams for each milestone point */}
+                        {project.points.map((pt, pIdx) => {
+                          const isHovered = activeNodeIndex === pIdx;
+                          return (
+                            <line
+                              key={`beam-${pIdx}`}
+                              x1={pt.x}
+                              y1={pt.y}
+                              x2={pt.x}
+                              y2="210"
+                              stroke={isHovered ? project.accentHex : "#3f3f46"}
+                              strokeDasharray={isHovered ? "2 2" : "3 3"}
+                              strokeWidth={isHovered ? "1.5" : "1"}
+                              opacity={isHovered ? "0.9" : "0.4"}
+                              className="transition-all duration-200"
+                            />
+                          );
+                        })}
 
-                      {/* Shaded Area Under Curve with Ambient Refraction */}
-                      <path d={project.areaPath} fill={`url(#${project.gradientId})`} />
+                        {/* Shaded Area Under Curve with Ambient Refraction */}
+                        <path d={project.areaPath} fill={`url(#${project.gradientId})`} />
 
-                      {/* Background Soft Neon Blur Path */}
-                      <path
-                        d={project.curvePath}
-                        fill="none"
-                        stroke={project.accentHex}
-                        strokeWidth="8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        opacity="0.35"
-                        filter="url(#neonGlow)"
-                      />
+                        {/* Background Soft Neon Blur Path */}
+                        <path
+                          d={project.curvePath}
+                          fill="none"
+                          stroke={project.accentHex}
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          opacity="0.35"
+                          filter="url(#neonGlow)"
+                        />
 
-                      {/* Foreground Crisp Main Stroke */}
-                      <path
-                        d={project.curvePath}
-                        fill="none"
-                        stroke={project.accentHex}
-                        strokeWidth="3.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                      />
+                        {/* Foreground Crisp Main Stroke */}
+                        <path
+                          d={project.curvePath}
+                          fill="none"
+                          stroke={project.accentHex}
+                          strokeWidth="3.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                        />
 
-                      {/* Interactive Data Point Nodes */}
-                      {project.points.map((pt, pIdx) => {
-                        const isHovered = activeNodeIndex === pIdx;
-                        const isLast = pIdx === project.points.length - 1;
-                        const isDip = pt.value <= 25 && pIdx > 0;
-                        return (
-                          <g
-                            key={pIdx}
-                            className="cursor-pointer group"
-                            onMouseEnter={() => setActiveNodeIndex(pIdx)}
-                            onMouseLeave={() => setActiveNodeIndex(null)}
-                            onClick={() => setActiveNodeIndex(pIdx)}
-                          >
-                            {/* Animated Pulse Ring on active or last or dip point */}
-                            {(isHovered || isLast) && (
+                        {/* Interactive Data Point Nodes */}
+                        {project.points.map((pt, pIdx) => {
+                          const isHovered = (activeNodeIndex !== null ? activeNodeIndex : project.points.length - 1) === pIdx;
+                          const isLast = pIdx === project.points.length - 1;
+                          const isDip = pt.value <= 25 && pIdx > 0;
+                          return (
+                            <g
+                              key={pIdx}
+                              className="cursor-pointer group"
+                              onMouseEnter={() => setActiveNodeIndex(pIdx)}
+                              onMouseLeave={() => {}}
+                              onClick={() => setActiveNodeIndex(pIdx)}
+                            >
+                              {/* Invisible Generous Tap Target for Mobile */}
                               <circle
                                 cx={pt.x}
                                 cy={pt.y}
-                                r="15"
-                                fill="none"
-                                stroke={project.accentHex}
-                                strokeWidth="1.5"
-                                opacity="0.6"
-                                className="animate-ping"
+                                r="22"
+                                fill="transparent"
                               />
-                            )}
 
-                            {/* Halo background */}
-                            <circle
-                              cx={pt.x}
-                              cy={pt.y}
-                              r={isHovered ? "10" : "7.5"}
-                              fill="#09090b"
-                              stroke={isDip ? "#fbbf24" : project.accentHex}
-                              strokeWidth={isHovered ? "3.5" : "2.5"}
-                              className="transition-all duration-200 shadow-lg"
-                            />
+                              {/* Animated Pulse Ring on active point */}
+                              {isHovered && (
+                                <circle
+                                  cx={pt.x}
+                                  cy={pt.y}
+                                  r="16"
+                                  fill="none"
+                                  stroke={project.accentHex}
+                                  strokeWidth="1.5"
+                                  opacity="0.6"
+                                  className="animate-ping"
+                                />
+                              )}
 
-                            {/* Center Dot */}
-                            <circle
-                              cx={pt.x}
-                              cy={pt.y}
-                              r="3.5"
-                              fill={isDip ? "#fbbf24" : "#ffffff"}
-                            />
+                              {/* Halo background */}
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r={isHovered ? "11" : "8"}
+                                fill="#09090b"
+                                stroke={isDip ? "#fbbf24" : project.accentHex}
+                                strokeWidth={isHovered ? "3.5" : "2.5"}
+                                className="transition-all duration-200 shadow-lg"
+                              />
 
-                            {/* Year Marker Label */}
-                            <text
-                              x={pt.x}
-                              y={pt.y > 175 ? pt.y - 18 : pt.y - 16}
-                              textAnchor="middle"
-                              fill={isHovered ? "#ffffff" : isDip ? "#fbbf24" : "#e4e4e7"}
-                              fontSize="11"
-                              fontWeight="bold"
-                              fontFamily="monospace"
-                              className="transition-colors duration-200 select-none drop-shadow"
-                            >
-                              {pt.year}
-                            </text>
+                              {/* Center Dot */}
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r="4"
+                                fill={isDip ? "#fbbf24" : "#ffffff"}
+                              />
 
-                            {/* Mini Status Tag Above Dip or Peak Point */}
-                            {isDip && (
+                              {/* Year Marker Label */}
                               <text
                                 x={pt.x}
-                                y={pt.y + 20}
+                                y={pt.y > 175 ? pt.y - 18 : pt.y - 16}
                                 textAnchor="middle"
-                                fill="#fbbf24"
-                                fontSize="8.5"
+                                fill={isHovered ? "#ffffff" : isDip ? "#fbbf24" : "#e4e4e7"}
+                                fontSize="11"
                                 fontWeight="bold"
                                 fontFamily="monospace"
-                                className="select-none"
+                                className="transition-colors duration-200 select-none drop-shadow"
                               >
-                                [CONSOLIDATION DIP]
+                                {pt.year}
                               </text>
-                            )}
 
-                            {isLast && project.id === "badsha-magic" && (
-                              <text
-                                x={pt.x}
-                                y={pt.y + 20}
-                                textAnchor="middle"
-                                fill="#38bdf8"
-                                fontSize="8.5"
-                                fontWeight="bold"
-                                fontFamily="monospace"
-                                className="select-none"
-                              >
-                                [19 CITIES • 100K+ VISITORS]
-                              </text>
-                            )}
-                          </g>
-                        );
-                      })}
-                    </svg>
+                              {/* Mini Status Tag Above Dip Point */}
+                              {isDip && (
+                                <text
+                                  x={pt.x}
+                                  y={pt.y + 20}
+                                  textAnchor="middle"
+                                  fill="#fbbf24"
+                                  fontSize="8.5"
+                                  fontWeight="bold"
+                                  fontFamily="monospace"
+                                  className="select-none"
+                                >
+                                  [CONSOLIDATION DIP]
+                                </text>
+                              )}
+                            </g>
+                          );
+                        })}
+                      </svg>
+                    </div>
+                  </div>
 
-                    {/* Active Tooltip / Inspection Overlay */}
-                    {activeNodeIndex !== null && project.points[activeNodeIndex] && (
-                      <div className="absolute top-2 right-2 max-w-xs bg-zinc-950/95 border border-white/25 p-3.5 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-2xl text-left pointer-events-none transition-all">
-                        <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-zinc-800">
-                          <span className="text-xs font-bold text-white font-mono flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: project.accentHex }} />
-                            {project.points[activeNodeIndex].year} — {project.points[activeNodeIndex].label}
-                          </span>
-                          <span className="text-[10px] font-mono text-cyan-400 font-bold px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
-                            {project.points[activeNodeIndex].value}% Index
+                  {/* Active Milestone Highlight Spotlight Card (Dedicated & Never Obscured on Phone) */}
+                  {(() => {
+                    const activeIndex = activeNodeIndex !== null ? activeNodeIndex : project.points.length - 1;
+                    const activePoint = project.points[activeIndex] || project.points[0];
+                    if (!activePoint) return null;
+                    return (
+                      <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-inner text-left transition-all duration-300">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-white/10">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ backgroundColor: project.accentHex }} />
+                            <span className="text-xs font-mono font-bold text-cyan-400 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
+                              {activePoint.year}
+                            </span>
+                            <span className="text-xs sm:text-sm font-bold text-white uppercase tracking-tight">
+                              {activePoint.label}
+                            </span>
+                          </div>
+                          <span className="text-[10px] font-mono text-zinc-400 font-bold px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+                            {activePoint.value}% Milestone Index
                           </span>
                         </div>
-                        <p className="text-[11px] text-zinc-300 mt-2 leading-relaxed">
-                          {project.points[activeNodeIndex].highlight}
+                        <p className="text-xs sm:text-sm text-zinc-300 mt-2 leading-relaxed">
+                          {activePoint.highlight}
                         </p>
                       </div>
-                    )}
-                  </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Milestone Breakdown Cards Grid */}
-                <div className="space-y-2.5">
+                <div className="space-y-2.5 text-left">
                   <div className="text-[11px] font-mono uppercase text-zinc-400 font-bold tracking-wider">
-                    Trajectory Milestones &amp; Strategic Moves
+                    Trajectory Milestones &amp; Strategic Moves (Tap to inspect)
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                     {project.points.map((pt, pIdx) => {
-                      const isSelected = activeNodeIndex === pIdx;
+                      const isSelected = (activeNodeIndex !== null ? activeNodeIndex : project.points.length - 1) === pIdx;
                       return (
                         <div
                           key={pIdx}
+                          onClick={() => setActiveNodeIndex(pIdx)}
                           onMouseEnter={() => setActiveNodeIndex(pIdx)}
-                          onMouseLeave={() => setActiveNodeIndex(null)}
-                          className={`p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer ${
+                          className={`p-3.5 rounded-2xl border transition-all duration-200 cursor-pointer text-left active:scale-[0.98] ${
                             isSelected
-                              ? "bg-white/[0.08] border-white/30 shadow-[0_4px_16px_rgba(255,255,255,0.1)] -translate-y-0.5"
+                              ? "bg-white/[0.08] border-white/35 shadow-[0_4px_16px_rgba(255,255,255,0.12)] -translate-y-0.5"
                               : "bg-zinc-900/60 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900"
                           }`}
                         >
@@ -1379,10 +1388,10 @@ export default function Home() {
                 </div>
 
                 {/* Key Metrics Footprint Row */}
-                <div className="pt-2 border-t border-zinc-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="pt-2 border-t border-zinc-800/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
                   {project.metrics.map((m, mIdx) => (
                     <div key={mIdx} className="p-3 rounded-2xl bg-zinc-900/40 border border-zinc-800 text-center">
-                      <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{m.label}</div>
+                      <div className="text-[9px] sm:text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{m.label}</div>
                       <div className="text-xs sm:text-sm font-bold text-white mt-0.5 truncate">{m.val}</div>
                     </div>
                   ))}
