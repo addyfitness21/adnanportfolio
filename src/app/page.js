@@ -616,13 +616,12 @@ export default function Home() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight">
-              From a small town to building{" "}
-              <span className="text-cyan-400">big</span>{" "}
-              <span className="text-rose-500">ideas.</span>
+              &ldquo;From a learner, for the{" "}
+              <span className="text-rose-500">learners.&rdquo;</span>
             </h2>
 
-            <p className="text-zinc-400 text-sm sm:text-base leading-relaxed font-normal">
-              I&apos;m Adnan Ali — a founder, builder and problem solver. I work across fitness, food, technology and impact, building brands that create real value for people. My focus is on turning ideas into scalable systems with clear execution, strong branding and sustainable growth.
+            <p className="text-zinc-300 text-sm sm:text-base leading-relaxed font-normal">
+              I&apos;m Adnan Ali, a founder, builder, and lifelong learner. Money doesn&apos;t matter to me as much as people do. What drives me is the opportunity to help people grow, turn their ideas into reality, and become better versions of themselves. I believe success is not just about what we build for ourselves, but about how many people we can help along the way. I&apos;m still learning every day, and that&apos;s why I believe in sharing, building, and growing together.
             </p>
 
             <div className="pt-2">
