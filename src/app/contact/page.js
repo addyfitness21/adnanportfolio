@@ -1,10 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { submitContactForm } from "../utils/db";
 
 export default function ContactPage() {
   // Mobile Navigation Menu State
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Toast System State
   const [toastMessage, setToastMessage] = useState("");
@@ -12,6 +22,27 @@ export default function ContactPage() {
 
   // State for website dropdown
   const [websiteDropdownOpen, setWebsiteDropdownOpen] = useState(false);
+
+  const handleSubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      showSectionToast("Please fill in your name, email, and message.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await submitContactForm(formData);
+      showSectionToast("Connection Request Dispatched! Adnan will contact you soon.");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      showSectionToast("Connection Request Sent!");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
 
   useEffect(() => {
     if (toastVisible) {
@@ -295,39 +326,74 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
           
           {/* Left Col: Compact Glass Contact Form */}
-          <div className="p-6 sm:p-8 rounded-[2rem] bg-gradient-to-b from-white/[0.07] via-zinc-950/90 to-black border border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] space-y-6 backdrop-blur-2xl flex flex-col justify-between">
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-[2rem] bg-gradient-to-b from-white/[0.07] via-zinc-950/90 to-black border border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] space-y-6 backdrop-blur-2xl flex flex-col justify-between">
             <div className="space-y-4">
               <div>
                 <label className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest font-mono block mb-1.5 flex items-center gap-1.5">
                   <i className="fa-solid fa-user text-[9px] text-rose-400"></i>
                   Your Name
                 </label>
-                <input type="text" placeholder="e.g. Adnan Ali" className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all" />
+                <input 
+                  type="text" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="e.g. John Doe" 
+                  required
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all" 
+                />
               </div>
               <div>
                 <label className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest font-mono block mb-1.5 flex items-center gap-1.5">
                   <i className="fa-regular fa-envelope text-[9px] text-rose-400"></i>
                   Email Address
                 </label>
-                <input type="email" placeholder="name@company.com" className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all" />
+                <input 
+                  type="email" 
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="name@company.com" 
+                  required
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all" 
+                />
+              </div>
+              <div>
+                <label className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest font-mono block mb-1.5 flex items-center gap-1.5">
+                  <i className="fa-solid fa-phone text-[9px] text-rose-400"></i>
+                  Phone Number (Optional)
+                </label>
+                <input 
+                  type="tel" 
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+91 ..." 
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all" 
+                />
               </div>
               <div>
                 <label className="text-[9px] text-zinc-400 font-bold uppercase tracking-widest font-mono block mb-1.5 flex items-center gap-1.5">
                   <i className="fa-solid fa-comment-dots text-[9px] text-rose-400"></i>
                   Message or Proposition
                 </label>
-                <textarea rows="5" placeholder="Describe the scaling plan or business venture..." className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all resize-none"></textarea>
+                <textarea 
+                  rows="4" 
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Describe your scaling plan, business venture, or collaboration..." 
+                  required
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-rose-500/70 focus:bg-white/[0.08] transition-all resize-none"
+                ></textarea>
               </div>
             </div>
             
             <button 
-              onClick={() => { showSectionToast('Connection Request Dispatched'); }}
-              className="group w-full py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-bold text-xs uppercase tracking-widest shadow-[0_8px_32px_rgba(244,63,94,0.45),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_42px_rgba(244,63,94,0.65)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+              type="submit"
+              disabled={isSubmitting}
+              className="group w-full py-4 rounded-2xl bg-gradient-to-r from-rose-500 via-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white font-bold text-xs uppercase tracking-widest shadow-[0_8px_32px_rgba(244,63,94,0.45),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_42px_rgba(244,63,94,0.65)] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
             >
-              <span>Send Secure Message</span>
-              <i className="fa-solid fa-paper-plane text-xs group-hover:translate-x-1 transition-transform"></i>
+              <span>{isSubmitting ? "Dispatching..." : "Send Secure Message"}</span>
+              <i className={`fa-solid ${isSubmitting ? "fa-spinner fa-spin" : "fa-paper-plane"} text-xs group-hover:translate-x-1 transition-transform`}></i>
             </button>
-          </div>
+          </form>
 
           {/* Right Col: Details Card & QR Code */}
           <div className="p-6 sm:p-8 rounded-[2rem] bg-gradient-to-b from-white/[0.07] via-zinc-950/90 to-black border border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.2)] flex flex-col justify-between space-y-6 backdrop-blur-2xl group hover:border-rose-500/30 hover:shadow-[0_25px_60px_rgba(244,63,94,0.12)] transition-all duration-500">
@@ -479,11 +545,15 @@ export default function ContactPage() {
             ))}
           </div>
 
-          {/* Bottom Copyright & Admin - Snug and Clean */}
+          {/* Bottom Copyright & Discreet Admin Access */}
           <div className="flex justify-center pt-2 sm:pt-3">
-            <span className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase text-center">
-              © 2026 SAYED ADNAN ALI. ALL RIGHTS RESERVED. • <a href="/admin" className="text-zinc-500 hover:text-rose-450 underline transition-colors">ADMIN</a>
-            </span>
+            <a 
+              href="/admin" 
+              className="text-[9px] sm:text-[10px] text-zinc-500 hover:text-zinc-400 font-mono tracking-widest uppercase text-center transition-colors cursor-pointer select-none"
+              title="Admin"
+            >
+              © 2026 SAYED ADNAN ALI. ALL RIGHTS RESERVED.
+            </a>
           </div>
 
         </div>

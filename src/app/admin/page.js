@@ -7,7 +7,8 @@ import {
   getPersonalData, savePersonalData, 
   getBusinessData, saveBusinessData, 
   getAboutData, saveAboutData, 
-  getBlogsData, saveBlogsData 
+  getBlogsData, saveBlogsData,
+  getContacts, saveLocalContacts
 } from "../utils/db";
 
 export default function AdminPage() {
@@ -29,6 +30,13 @@ export default function AdminPage() {
   const [businessData, setBusinessData] = useState({ ventures: [] });
   const [aboutData, setAboutData] = useState({ chapters: [] });
   const [blogsData, setBlogsData] = useState([]);
+
+  // Contacts / Inquiries States
+  const [contactsData, setContactsData] = useState([]);
+  const [contactsLoading, setContactsLoading] = useState(false);
+  const [contactSearch, setContactSearch] = useState("");
+  const [contactStatusFilter, setContactStatusFilter] = useState("all"); // all, new, contacted
+  const [copiedId, setCopiedId] = useState(null);
 
   // Active items being edited (for modal or detail forms)
   const [editingIndex, setEditingIndex] = useState(null);
@@ -54,6 +62,22 @@ export default function AdminPage() {
   const [newPassword, setNewPassword] = useState("");
   const [settingsMessage, setSettingsMessage] = useState("");
 
+  const fetchContacts = async () => {
+    setContactsLoading(true);
+    try {
+      const res = await fetch("/api/db?type=contacts");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setContactsData(data);
+        saveLocalContacts(data);
+      }
+    } catch (err) {
+      console.error("Error loading contacts:", err);
+    } finally {
+      setContactsLoading(false);
+    }
+  };
+
   useEffect(() => {
     setIsClient(true);
     // Initial fetch from localStorage
@@ -64,6 +88,7 @@ export default function AdminPage() {
     setBusinessData(getBusinessData());
     setAboutData(getAboutData());
     setBlogsData(getBlogsData());
+    setContactsData(getContacts());
 
     // Pull fresh data from Neon DB
     fetch("/api/db?type=settings")
@@ -89,6 +114,8 @@ export default function AdminPage() {
     fetch("/api/db?type=blogs")
       .then(res => res.json())
       .then(data => { if (data && !data.error) { setBlogsData(data); localStorage.setItem("addy_blogs", JSON.stringify(data)); } });
+
+    fetchContacts();
   }, []);
 
   const handleLogin = (e) => {
@@ -414,6 +441,48 @@ export default function AdminPage() {
   };
 
   // ----------------------------------------------------
+  // CONTACTS & INQUIRIES ACTIONS
+  // ----------------------------------------------------
+  const handleToggleContactStatus = async (id, currentStatus) => {
+    const nextStatus = currentStatus === "contacted" ? "new" : "contacted";
+    const updated = contactsData.map(c => c.id === id ? { ...c, status: nextStatus } : c);
+    setContactsData(updated);
+    saveLocalContacts(updated);
+    try {
+      await fetch("/api/db", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "update_contact_status", data: { id, status: nextStatus } })
+      });
+    } catch (err) {
+      console.error("Error updating status:", err);
+    }
+  };
+
+  const handleDeleteContact = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this message/inquiry?")) return;
+    const updated = contactsData.filter(c => c.id !== id);
+    setContactsData(updated);
+    saveLocalContacts(updated);
+    try {
+      await fetch("/api/db", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "delete_contact", data: { id } })
+      });
+    } catch (err) {
+      console.error("Error deleting contact:", err);
+    }
+  };
+
+  const handleCopyContact = (c) => {
+    const text = `Name: ${c.name}\nEmail: ${c.email}\nPhone: ${c.phone || "N/A"}\nMessage: ${c.message}\nReceived: ${new Date(c.createdAt || Date.now()).toLocaleString()}`;
+    navigator.clipboard.writeText(text);
+    setCopiedId(c.id);
+    setTimeout(() => setCopiedId(null), 2500);
+  };
+
+  // ----------------------------------------------------
   // SETTINGS ACTIONS
   // ----------------------------------------------------
   const handleUpdateSettings = (e) => {
@@ -522,24 +591,34 @@ export default function AdminPage() {
           
           {/* TAB SELECTOR LEFT BAR */}
           <div className="lg:col-span-1 space-y-2.5">
-            {["Home", "Personal", "Business", "About Me", "Blogs", "Settings"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => {
-                  setActiveTab(tab);
-                  setEditingIndex(null);
-                  setEditItemType("");
-                }}
-                className={`w-full text-left px-5 py-3.5 rounded-2xl border text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-between cursor-pointer ${
-                  activeTab === tab 
-                    ? "bg-white/10 border-white/20 text-white shadow-md" 
-                    : "bg-transparent border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
-                }`}
-              >
-                <span>{tab}</span>
-                <i className={`fas fa-chevron-right text-[9px] transition-transform ${activeTab === tab ? "translate-x-0.5" : "text-zinc-600"}`}></i>
-              </button>
-            ))}
+            {["Home", "Personal", "Business", "About Me", "Blogs", "Inquiries", "Settings"].map((tab) => {
+              const newCount = contactsData.filter(c => c.status === "new").length;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setActiveTab(tab);
+                    setEditingIndex(null);
+                    setEditItemType("");
+                  }}
+                  className={`w-full text-left px-5 py-3.5 rounded-2xl border text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-between cursor-pointer ${
+                    activeTab === tab 
+                      ? "bg-white/10 border-white/20 text-white shadow-md" 
+                      : "bg-transparent border-transparent text-zinc-400 hover:text-zinc-200 hover:bg-white/5"
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>{tab === "Inquiries" ? "Contacts & Inquiries" : tab}</span>
+                    {tab === "Inquiries" && newCount > 0 && (
+                      <span className="px-2 py-0.5 rounded-full bg-rose-500 text-white text-[9px] font-mono font-bold animate-pulse shadow-[0_0_10px_rgba(244,63,94,0.6)]">
+                        {newCount}
+                      </span>
+                    )}
+                  </div>
+                  <i className={`fas fa-chevron-right text-[9px] transition-transform ${activeTab === tab ? "translate-x-0.5" : "text-zinc-600"}`}></i>
+                </button>
+              );
+            })}
             
             <a 
               href="/" 
@@ -1561,7 +1640,260 @@ export default function AdminPage() {
               </div>
             )}
 
-            {/* 6. SETTINGS TAB */}
+            {/* 6. CONTACTS & INQUIRIES TAB */}
+            {activeTab === "Inquiries" && (
+              <div className="space-y-8 animate-fade-in">
+                {/* Header Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 space-y-1">
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 font-mono">Total Inquiries</span>
+                    <p className="text-2xl font-black text-white font-mono">{contactsData.length}</p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-1">
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-rose-400 font-mono flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+                      New / Unread
+                    </span>
+                    <p className="text-2xl font-black text-rose-400 font-mono">
+                      {contactsData.filter(c => c.status === "new").length}
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                    <span className="text-[9px] uppercase font-bold tracking-widest text-emerald-400 font-mono">Contacted / Handled</span>
+                    <p className="text-2xl font-black text-emerald-400 font-mono">
+                      {contactsData.filter(c => c.status === "contacted").length}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Filter and Search Bar */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white/[0.01] border border-white/5">
+                  <div className="flex items-center gap-2 flex-1">
+                    <i className="fas fa-search text-xs text-zinc-500"></i>
+                    <input 
+                      type="text" 
+                      value={contactSearch}
+                      onChange={(e) => setContactSearch(e.target.value)}
+                      placeholder="Search by sender name, email, phone, or keyword..." 
+                      className="bg-transparent text-xs text-white placeholder-zinc-500 focus:outline-none w-full"
+                    />
+                    {contactSearch && (
+                      <button 
+                        onClick={() => setContactSearch("")}
+                        className="text-zinc-500 hover:text-white text-xs px-2"
+                      >
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 self-end sm:self-auto">
+                    {["all", "new", "contacted"].map((f) => (
+                      <button
+                        key={f}
+                        onClick={() => setContactStatusFilter(f)}
+                        className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                          contactStatusFilter === f 
+                            ? "bg-white text-black" 
+                            : "bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10"
+                        }`}
+                      >
+                        {f === "all" ? "All" : f === "new" ? "New" : "Contacted"}
+                      </button>
+                    ))}
+
+                    <button 
+                      onClick={fetchContacts}
+                      disabled={contactsLoading}
+                      title="Refresh Inquiries"
+                      className="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                      <i className={`fas fa-sync-alt text-xs ${contactsLoading ? "fa-spin" : ""}`}></i>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Inquiries List */}
+                <div className="space-y-4">
+                  {(() => {
+                    const filtered = contactsData.filter(item => {
+                      if (contactStatusFilter !== "all" && item.status !== contactStatusFilter) return false;
+                      if (!contactSearch.trim()) return true;
+                      const q = contactSearch.toLowerCase();
+                      return (
+                        (item.name || "").toLowerCase().includes(q) ||
+                        (item.email || "").toLowerCase().includes(q) ||
+                        (item.phone || "").toLowerCase().includes(q) ||
+                        (item.message || "").toLowerCase().includes(q)
+                      );
+                    });
+
+                    if (filtered.length === 0) {
+                      return (
+                        <div className="p-12 rounded-3xl bg-white/[0.01] border border-dashed border-white/10 text-center space-y-3">
+                          <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 mx-auto flex items-center justify-center text-zinc-500 text-lg">
+                            <i className="fa-regular fa-envelope-open"></i>
+                          </div>
+                          <h4 className="text-sm font-bold text-white uppercase tracking-wider">No Inquiries Found</h4>
+                          <p className="text-xs text-zinc-500 max-w-sm mx-auto">
+                            {contactSearch ? "No messages match your search criteria." : "When clients or collaborators reach out via the Contact page, their full message and credentials will appear right here."}
+                          </p>
+                        </div>
+                      );
+                    }
+
+                    return filtered.map((c) => {
+                      const isNew = c.status === "new";
+                      const dateStr = c.createdAt ? new Date(c.createdAt).toLocaleString(undefined, {
+                        month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit"
+                      }) : "Recent";
+                      
+                      const mailtoHref = `mailto:${c.email}?subject=${encodeURIComponent("Re: Inquiry via Sayed Adnan Ali Portfolio")}&body=${encodeURIComponent(`Hi ${c.name},\n\nThank you for reaching out regarding:\n\n"${c.message}"\n\nI would be glad to discuss this further with you.\n\nBest regards,\nSayed Adnan Ali\nadnan@addyfitness.com | +91 97788 03677`)}`;
+                      
+                      return (
+                        <div 
+                          key={c.id} 
+                          className={`p-6 rounded-3xl border transition-all duration-300 space-y-4 backdrop-blur-xl relative overflow-hidden group ${
+                            isNew 
+                              ? "bg-gradient-to-b from-rose-500/[0.06] via-zinc-950 to-black border-rose-500/30 shadow-[0_10px_30px_rgba(244,63,94,0.1)]" 
+                              : "bg-white/[0.02] border-white/10 hover:border-white/20"
+                          }`}
+                        >
+                          {/* Top Row: Sender Info & Status Badge */}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
+                            <div className="flex items-center gap-3.5">
+                              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-bold text-sm uppercase shadow-inner ${
+                                isNew 
+                                  ? "bg-gradient-to-tr from-rose-500 to-rose-400 text-white shadow-rose-500/50" 
+                                  : "bg-zinc-800 text-zinc-300 border border-white/10"
+                              }`}>
+                                {c.name ? c.name.slice(0, 2) : "AN"}
+                              </div>
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <h4 className="text-sm font-black text-white uppercase tracking-wide">{c.name}</h4>
+                                  {isNew && (
+                                    <span className="px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-400 text-[9px] font-mono font-bold uppercase tracking-wider">
+                                      New
+                                    </span>
+                                  )}
+                                  {!isNew && (
+                                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[9px] font-mono font-bold uppercase tracking-wider">
+                                      Contacted
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="text-[10px] text-zinc-500 font-mono block mt-0.5">
+                                  <i className="far fa-clock mr-1 text-[9px]"></i> {dateStr}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Contact Details Badges */}
+                            <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+                              <a 
+                                href={`mailto:${c.email}`}
+                                className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:text-rose-400 text-zinc-300 transition-colors flex items-center gap-2 text-[11px]"
+                                title="Click to send email"
+                              >
+                                <i className="far fa-envelope text-[11px] text-rose-400"></i>
+                                <span>{c.email}</span>
+                              </a>
+                              {c.phone && (
+                                <a 
+                                  href={`tel:${c.phone}`}
+                                  className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:text-emerald-400 text-zinc-300 transition-colors flex items-center gap-2 text-[11px]"
+                                  title="Click to call"
+                                >
+                                  <i className="fas fa-phone text-[10px] text-emerald-400"></i>
+                                  <span>{c.phone}</span>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Message / Query Bubble */}
+                          <div className="space-y-1.5 text-left">
+                            <span className="text-[9px] uppercase font-bold tracking-widest text-zinc-500 font-mono block">
+                              Message / Proposition:
+                            </span>
+                            <div className="p-4 rounded-2xl bg-zinc-950/80 border border-white/5 text-zinc-200 text-xs sm:text-sm font-normal leading-relaxed whitespace-pre-wrap selection:bg-rose-500 selection:text-white">
+                              {c.message}
+                            </div>
+                          </div>
+
+                          {/* Action Toolbar */}
+                          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                            <div className="flex flex-wrap items-center gap-2">
+                              {/* Direct Email Reply Button */}
+                              <a 
+                                href={mailtoHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-rose-500/20 transition-all cursor-pointer active:scale-95"
+                              >
+                                <i className="fas fa-reply text-xs"></i>
+                                <span>Reply via Email</span>
+                              </a>
+
+                              {/* WhatsApp if phone available */}
+                              {c.phone && (
+                                <a 
+                                  href={`https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hi ${c.name}, thanks for reaching out to Sayed Adnan Ali.`)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3.5 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 hover:bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
+                                >
+                                  <i className="fab fa-whatsapp text-xs"></i>
+                                  <span>WhatsApp</span>
+                                </a>
+                              )}
+
+                              {/* Copy Details */}
+                              <button 
+                                onClick={() => handleCopyContact(c)}
+                                className="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+                              >
+                                <i className={`fas ${copiedId === c.id ? "fa-check text-emerald-400" : "fa-copy"} text-[10px]`}></i>
+                                <span>{copiedId === c.id ? "Copied!" : "Copy Info"}</span>
+                              </button>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {/* Toggle Status */}
+                              <button 
+                                onClick={() => handleToggleContactStatus(c.id, c.status)}
+                                className={`px-3.5 py-2 rounded-xl border text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 ${
+                                  isNew 
+                                    ? "bg-emerald-500/10 border-emerald-500/25 text-emerald-400 hover:bg-emerald-500/20" 
+                                    : "bg-white/5 border-white/10 text-zinc-400 hover:text-white hover:bg-white/10"
+                                }`}
+                              >
+                                <i className={`fas ${isNew ? "fa-check-circle" : "fa-undo"} text-[10px]`}></i>
+                                <span>{isNew ? "Mark as Contacted" : "Mark as New"}</span>
+                              </button>
+
+                              {/* Delete */}
+                              <button 
+                                onClick={() => handleDeleteContact(c.id)}
+                                className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 text-xs transition-colors cursor-pointer"
+                                title="Delete Message"
+                              >
+                                <i className="fas fa-trash text-[11px]"></i>
+                              </button>
+                            </div>
+                          </div>
+
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+
+              </div>
+            )}
+
+            {/* 7. SETTINGS TAB */}
             {activeTab === "Settings" && (
               <div className="space-y-6 animate-fade-in">
                 <h3 className="text-xs font-black uppercase tracking-widest text-rose-400">Change Admin Access Credentials</h3>

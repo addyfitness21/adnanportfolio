@@ -442,3 +442,56 @@ export function saveBlogsData(data) {
     body: JSON.stringify({ type: "blogs", data })
   }).catch(err => console.error("Error saving blogs data:", err));
 }
+
+// Contact inquiries management
+export function getContacts() {
+  if (typeof window === "undefined") return [];
+  const item = localStorage.getItem("addy_contacts");
+  if (!item) {
+    return [];
+  }
+  try {
+    return JSON.parse(item);
+  } catch (e) {
+    return [];
+  }
+}
+
+export function saveLocalContacts(contacts) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("addy_contacts", JSON.stringify(contacts));
+}
+
+export async function submitContactForm(data) {
+  const newContact = {
+    id: Date.now(),
+    name: data.name,
+    email: data.email,
+    phone: data.phone || "",
+    message: data.message,
+    status: "new",
+    createdAt: new Date().toISOString()
+  };
+
+  // Save to localStorage
+  if (typeof window !== "undefined") {
+    const existing = getContacts();
+    const updated = [newContact, ...existing];
+    saveLocalContacts(updated);
+  }
+
+  // Submit to Neon DB
+  try {
+    const res = await fetch("/api/db", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "contact_submission", data })
+    });
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    console.error("Error submitting contact form to DB:", err);
+    return { success: true, localOnly: true };
+  }
+}
+

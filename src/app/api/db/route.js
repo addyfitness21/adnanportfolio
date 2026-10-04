@@ -106,6 +106,28 @@ export async function GET(request) {
       })));
     }
 
+    if (type === "contacts") {
+      await sql`CREATE TABLE IF NOT EXISTS contact_submissions (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        message TEXT NOT NULL,
+        status TEXT DEFAULT 'new',
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      )`;
+      const rows = await sql`SELECT id, name, email, phone, message, status, created_at FROM contact_submissions ORDER BY created_at DESC, id DESC`;
+      return NextResponse.json(rows.map(r => ({
+        id: r.id,
+        name: r.name,
+        email: r.email,
+        phone: r.phone || "",
+        message: r.message,
+        status: r.status || "new",
+        createdAt: r.created_at
+      })));
+    }
+
     return NextResponse.json({ error: "Invalid type" }, { status: 400 });
   } catch (error) {
     console.error("GET DB Error:", error);
@@ -185,9 +207,38 @@ export async function POST(request) {
       return NextResponse.json({ success: true });
     }
 
+    if (type === "contact_submission") {
+      await sql`CREATE TABLE IF NOT EXISTS contact_submissions (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        message TEXT NOT NULL,
+        status TEXT DEFAULT 'new',
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      )`;
+      const res = await sql`
+        INSERT INTO contact_submissions (name, email, phone, message, status, created_at)
+        VALUES (${data.name}, ${data.email}, ${data.phone || ''}, ${data.message}, 'new', NOW())
+        RETURNING id, name, email, phone, message, status, created_at
+      `;
+      return NextResponse.json({ success: true, contact: res[0] });
+    }
+
+    if (type === "update_contact_status") {
+      await sql`UPDATE contact_submissions SET status = ${data.status} WHERE id = ${data.id}`;
+      return NextResponse.json({ success: true });
+    }
+
+    if (type === "delete_contact") {
+      await sql`DELETE FROM contact_submissions WHERE id = ${data.id}`;
+      return NextResponse.json({ success: true });
+    }
+
     return NextResponse.json({ error: "Invalid type" }, { status: 400 });
   } catch (error) {
     console.error("POST DB Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

@@ -636,11 +636,15 @@ export default function BlogsPage() {
             ))}
           </div>
 
-          {/* Bottom Copyright & Admin - Snug and Clean */}
+          {/* Bottom Copyright & Discreet Admin Access */}
           <div className="flex justify-center pt-2 sm:pt-3">
-            <span className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase text-center">
-              © 2026 SAYED ADNAN ALI. ALL RIGHTS RESERVED. • <a href="/admin" className="text-zinc-500 hover:text-rose-450 underline transition-colors">ADMIN</a>
-            </span>
+            <a 
+              href="/admin" 
+              className="text-[9px] sm:text-[10px] text-zinc-500 hover:text-zinc-400 font-mono tracking-widest uppercase text-center transition-colors cursor-pointer select-none"
+              title="Admin"
+            >
+              © 2026 SAYED ADNAN ALI. ALL RIGHTS RESERVED.
+            </a>
           </div>
 
         </div>
