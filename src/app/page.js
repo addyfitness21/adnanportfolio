@@ -1148,177 +1148,175 @@ export default function Home() {
                       Hover or tap nodes to inspect milestone events
                     </span>
                     <span className="text-zinc-400 text-[9px] flex items-center gap-1 sm:hidden">
-                      <i className="fa-solid fa-arrows-left-right text-cyan-400" />
-                      <span>Scroll timeline</span>
+                      <i className="fa-solid fa-fingerprint text-cyan-400" />
+                      <span>Tap node to inspect</span>
                     </span>
                   </div>
 
-                  {/* Scrollable Container for Mobile to Prevent Squeezed Distortion */}
-                  <div className="w-full overflow-x-auto overflow-y-hidden pb-1 pt-1 touch-pan-x scrollbar-thin scrollbar-thumb-zinc-800">
-                    <div className="min-w-[560px] sm:min-w-full relative aspect-[16/6] sm:aspect-[16/5] min-h-[200px] sm:min-h-[220px]">
-                      
-                      {/* SVG Graphic */}
-                      <svg viewBox="0 0 800 240" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-                        <defs>
-                          <linearGradient id={project.gradientId} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor={project.accentHex} stopOpacity="0.55" />
-                            <stop offset="65%" stopColor={project.accentHex} stopOpacity="0.12" />
-                            <stop offset="100%" stopColor={project.accentHex} stopOpacity="0.00" />
-                          </linearGradient>
+                  {/* Single Frame Zoomed-Out Responsive Canvas Container */}
+                  <div className="w-full relative aspect-[16/7.5] sm:aspect-[16/5] select-none">
+                    
+                    {/* SVG Graphic - Fully Scaled to Single Viewport Frame */}
+                    <svg viewBox="0 0 800 240" className="w-full h-full overflow-visible" preserveAspectRatio="xMidYMid meet">
+                      <defs>
+                        <linearGradient id={project.gradientId} x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor={project.accentHex} stopOpacity="0.55" />
+                          <stop offset="65%" stopColor={project.accentHex} stopOpacity="0.12" />
+                          <stop offset="100%" stopColor={project.accentHex} stopOpacity="0.00" />
+                        </linearGradient>
 
-                          <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="5" result="blur" />
-                            <feMerge>
-                              <feMergeNode in="blur" />
-                              <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                          </filter>
-                        </defs>
+                        <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                          <feGaussianBlur stdDeviation="5" result="blur" />
+                          <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                          </feMerge>
+                        </filter>
+                      </defs>
 
-                        {/* Horizontal Grid Guide Lines */}
-                        <line x1="40" y1="35" x2="760" y2="35" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                        <line x1="40" y1="95" x2="760" y2="95" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                        <line x1="40" y1="155" x2="760" y2="155" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
-                        <line x1="40" y1="210" x2="760" y2="210" stroke="#3f3f46" strokeWidth="1.2" />
+                      {/* Horizontal Grid Guide Lines */}
+                      <line x1="30" y1="35" x2="770" y2="35" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                      <line x1="30" y1="95" x2="770" y2="95" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                      <line x1="30" y1="155" x2="770" y2="155" stroke="#27272a" strokeDasharray="4 4" strokeWidth="1" />
+                      <line x1="30" y1="210" x2="770" y2="210" stroke="#3f3f46" strokeWidth="1.2" />
 
-                        {/* Guide Text Labels */}
-                        <text x="45" y="30" fill="#a1a1aa" fontSize="9" fontWeight="bold" fontFamily="monospace">SCALE / LEADERSHIP (95%+)</text>
-                        <text x="45" y="90" fill="#71717a" fontSize="9" fontFamily="monospace">INFLECTION / SURGE (65%+)</text>
-                        <text x="45" y="150" fill="#52525b" fontSize="9" fontFamily="monospace">VALIDATION / PIVOT (35%+)</text>
+                      {/* Guide Text Labels */}
+                      <text x="35" y="28" fill="#a1a1aa" fontSize="9.5" fontWeight="bold" fontFamily="monospace">SCALE / LEADERSHIP (95%+)</text>
+                      <text x="35" y="88" fill="#71717a" fontSize="9.5" fontFamily="monospace">INFLECTION / SURGE (65%+)</text>
+                      <text x="35" y="148" fill="#52525b" fontSize="9.5" fontFamily="monospace">VALIDATION / PIVOT (35%+)</text>
 
-                        {/* Vertical Laser Drop Beams for each milestone point */}
-                        {project.points.map((pt, pIdx) => {
-                          const isHovered = activeNodeIndex === pIdx;
-                          return (
-                            <line
-                              key={`beam-${pIdx}`}
-                              x1={pt.x}
-                              y1={pt.y}
-                              x2={pt.x}
-                              y2="210"
-                              stroke={isHovered ? project.accentHex : "#3f3f46"}
-                              strokeDasharray={isHovered ? "2 2" : "3 3"}
-                              strokeWidth={isHovered ? "1.5" : "1"}
-                              opacity={isHovered ? "0.9" : "0.4"}
-                              className="transition-all duration-200"
+                      {/* Vertical Laser Drop Beams for each milestone point */}
+                      {project.points.map((pt, pIdx) => {
+                        const isHovered = activeNodeIndex === pIdx;
+                        return (
+                          <line
+                            key={`beam-${pIdx}`}
+                            x1={pt.x}
+                            y1={pt.y}
+                            x2={pt.x}
+                            y2="210"
+                            stroke={isHovered ? project.accentHex : "#3f3f46"}
+                            strokeDasharray={isHovered ? "2 2" : "3 3"}
+                            strokeWidth={isHovered ? "1.5" : "1"}
+                            opacity={isHovered ? "0.9" : "0.4"}
+                            className="transition-all duration-200"
+                          />
+                        );
+                      })}
+
+                      {/* Shaded Area Under Curve with Ambient Refraction */}
+                      <path d={project.areaPath} fill={`url(#${project.gradientId})`} />
+
+                      {/* Background Soft Neon Blur Path */}
+                      <path
+                        d={project.curvePath}
+                        fill="none"
+                        stroke={project.accentHex}
+                        strokeWidth="8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity="0.35"
+                        filter="url(#neonGlow)"
+                      />
+
+                      {/* Foreground Crisp Main Stroke */}
+                      <path
+                        d={project.curvePath}
+                        fill="none"
+                        stroke={project.accentHex}
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                      />
+
+                      {/* Interactive Data Point Nodes */}
+                      {project.points.map((pt, pIdx) => {
+                        const isHovered = (activeNodeIndex !== null ? activeNodeIndex : project.points.length - 1) === pIdx;
+                        const isLast = pIdx === project.points.length - 1;
+                        const isDip = pt.value <= 25 && pIdx > 0;
+                        return (
+                          <g
+                            key={pIdx}
+                            className="cursor-pointer group"
+                            onMouseEnter={() => setActiveNodeIndex(pIdx)}
+                            onMouseLeave={() => {}}
+                            onClick={() => setActiveNodeIndex(pIdx)}
+                          >
+                            {/* Invisible Generous Tap Target for Mobile */}
+                            <circle
+                              cx={pt.x}
+                              cy={pt.y}
+                              r="26"
+                              fill="transparent"
                             />
-                          );
-                        })}
 
-                        {/* Shaded Area Under Curve with Ambient Refraction */}
-                        <path d={project.areaPath} fill={`url(#${project.gradientId})`} />
+                            {/* Animated Pulse Ring on active point */}
+                            {isHovered && (
+                              <circle
+                                cx={pt.x}
+                                cy={pt.y}
+                                r="16"
+                                fill="none"
+                                stroke={project.accentHex}
+                                strokeWidth="1.5"
+                                opacity="0.6"
+                                className="animate-ping"
+                              />
+                            )}
 
-                        {/* Background Soft Neon Blur Path */}
-                        <path
-                          d={project.curvePath}
-                          fill="none"
-                          stroke={project.accentHex}
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          opacity="0.35"
-                          filter="url(#neonGlow)"
-                        />
+                            {/* Halo background */}
+                            <circle
+                              cx={pt.x}
+                              cy={pt.y}
+                              r={isHovered ? "11" : "8"}
+                              fill="#09090b"
+                              stroke={isDip ? "#fbbf24" : project.accentHex}
+                              strokeWidth={isHovered ? "3.5" : "2.5"}
+                              className="transition-all duration-200 shadow-lg"
+                            />
 
-                        {/* Foreground Crisp Main Stroke */}
-                        <path
-                          d={project.curvePath}
-                          fill="none"
-                          stroke={project.accentHex}
-                          strokeWidth="3.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                        />
+                            {/* Center Dot */}
+                            <circle
+                              cx={pt.x}
+                              cy={pt.y}
+                              r="4"
+                              fill={isDip ? "#fbbf24" : "#ffffff"}
+                            />
 
-                        {/* Interactive Data Point Nodes */}
-                        {project.points.map((pt, pIdx) => {
-                          const isHovered = (activeNodeIndex !== null ? activeNodeIndex : project.points.length - 1) === pIdx;
-                          const isLast = pIdx === project.points.length - 1;
-                          const isDip = pt.value <= 25 && pIdx > 0;
-                          return (
-                            <g
-                              key={pIdx}
-                              className="cursor-pointer group"
-                              onMouseEnter={() => setActiveNodeIndex(pIdx)}
-                              onMouseLeave={() => {}}
-                              onClick={() => setActiveNodeIndex(pIdx)}
+                            {/* Year Marker Label */}
+                            <text
+                              x={pt.x}
+                              y={pt.y > 175 ? pt.y - 18 : pt.y - 16}
+                              textAnchor="middle"
+                              fill={isHovered ? "#ffffff" : isDip ? "#fbbf24" : "#e4e4e7"}
+                              fontSize="12"
+                              fontWeight="bold"
+                              fontFamily="monospace"
+                              className="transition-colors duration-200 select-none drop-shadow"
                             >
-                              {/* Invisible Generous Tap Target for Mobile */}
-                              <circle
-                                cx={pt.x}
-                                cy={pt.y}
-                                r="22"
-                                fill="transparent"
-                              />
+                              {pt.year}
+                            </text>
 
-                              {/* Animated Pulse Ring on active point */}
-                              {isHovered && (
-                                <circle
-                                  cx={pt.x}
-                                  cy={pt.y}
-                                  r="16"
-                                  fill="none"
-                                  stroke={project.accentHex}
-                                  strokeWidth="1.5"
-                                  opacity="0.6"
-                                  className="animate-ping"
-                                />
-                              )}
-
-                              {/* Halo background */}
-                              <circle
-                                cx={pt.x}
-                                cy={pt.y}
-                                r={isHovered ? "11" : "8"}
-                                fill="#09090b"
-                                stroke={isDip ? "#fbbf24" : project.accentHex}
-                                strokeWidth={isHovered ? "3.5" : "2.5"}
-                                className="transition-all duration-200 shadow-lg"
-                              />
-
-                              {/* Center Dot */}
-                              <circle
-                                cx={pt.x}
-                                cy={pt.y}
-                                r="4"
-                                fill={isDip ? "#fbbf24" : "#ffffff"}
-                              />
-
-                              {/* Year Marker Label */}
+                            {/* Mini Status Tag Above Dip Point */}
+                            {isDip && (
                               <text
                                 x={pt.x}
-                                y={pt.y > 175 ? pt.y - 18 : pt.y - 16}
+                                y={pt.y + 20}
                                 textAnchor="middle"
-                                fill={isHovered ? "#ffffff" : isDip ? "#fbbf24" : "#e4e4e7"}
-                                fontSize="11"
+                                fill="#fbbf24"
+                                fontSize="8.5"
                                 fontWeight="bold"
                                 fontFamily="monospace"
-                                className="transition-colors duration-200 select-none drop-shadow"
+                                className="select-none"
                               >
-                                {pt.year}
+                                [CONSOLIDATION DIP]
                               </text>
-
-                              {/* Mini Status Tag Above Dip Point */}
-                              {isDip && (
-                                <text
-                                  x={pt.x}
-                                  y={pt.y + 20}
-                                  textAnchor="middle"
-                                  fill="#fbbf24"
-                                  fontSize="8.5"
-                                  fontWeight="bold"
-                                  fontFamily="monospace"
-                                  className="select-none"
-                                >
-                                  [CONSOLIDATION DIP]
-                                </text>
-                              )}
-                            </g>
-                          );
-                        })}
-                      </svg>
-                    </div>
+                            )}
+                          </g>
+                        );
+                      })}
+                    </svg>
                   </div>
 
                   {/* Active Milestone Highlight Spotlight Card (Dedicated & Never Obscured on Phone) */}
